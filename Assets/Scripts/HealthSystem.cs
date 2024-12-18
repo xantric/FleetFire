@@ -5,7 +5,6 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     float health = 100;
-    public GameObject player;
     public void reduceHealth(float damage)
     {
         health -= damage;
@@ -14,7 +13,7 @@ public class HealthSystem : MonoBehaviour
     {
         if(health <= 0)
         {
-            Destroy(player);
+            Destroy(gameObject);
         }
     }
 }
