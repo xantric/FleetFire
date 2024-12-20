@@ -16,6 +16,17 @@ public class WeaponControl : MonoBehaviour
     public float speed;
     public float scaleFactor = 1;
     public float Damage;
+
+    public int MaxAmmo=10;
+    public int CurrentAmmo;
+    public float reloadTime=1f;
+    private bool isReloading = false;
+    public int ClipCount=2;
+
+    void Start()
+    {
+        CurrentAmmo = MaxAmmo;
+    }
     void SetCrossHair()
     {
         somethingHit = Physics.Raycast(muzzle.position, muzzle.forward, out hitInfo, range, ~ignoreLayer);
@@ -37,13 +48,31 @@ public class WeaponControl : MonoBehaviour
         GameObject bulletClone = Instantiate(bullet, muzzle.position, Quaternion.identity);
         bulletClone.GetComponent<BulletBehaviour>().SetVelocity(speed * muzzle.forward.normalized);
         bulletClone.GetComponent<BulletBehaviour>().SetDamage(Damage);
+        CurrentAmmo--;
+    }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        CurrentAmmo = MaxAmmo;
+        isReloading = false;
+        ClipCount--;
     }
     void Update()
     {
+        if(isReloading)
+        {
+            return;
+        }
         SetCrossHair();
-        if(Input.GetMouseButtonDown(0) && crossHair.gameObject.activeSelf)
+        if(Input.GetMouseButtonDown(0) && crossHair.gameObject.activeSelf && CurrentAmmo > 0)
         {
             Shoot();
+        }
+        if(Input.GetKeyDown(KeyCode.R) && CurrentAmmo < MaxAmmo && ClipCount > 0) 
+        {
+            StartCoroutine(Reload());
         }
     }
 }
