@@ -9,6 +9,7 @@ public class BulletBehaviour : MonoBehaviour
     RaycastHit hitInfo;
     float damage;
     bool somethingHit;
+   
     public void SetVelocity(Vector3 velocity)
     {
         GetComponent<Rigidbody>().velocity = velocity;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     public float health = 100;
+    public float maxHeath=100;
     public void reduceHealth(float damage)
     {
         health -= damage;

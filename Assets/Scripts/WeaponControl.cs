@@ -22,6 +22,7 @@ public class WeaponControl : MonoBehaviour
     public float reloadTime=1f;
     private bool isReloading = false;
     public int ClipCount=2;
+    public Pausemenu pause;
 
     void Start()
     {
@@ -45,6 +46,10 @@ public class WeaponControl : MonoBehaviour
     }
     void Shoot()
     {
+        if(pause.isPaused)
+        {
+            return;
+        }
         GameObject bulletClone = Instantiate(bullet, muzzle.position, Quaternion.identity);
         bulletClone.GetComponent<BulletBehaviour>().SetVelocity(speed * muzzle.forward.normalized);
         bulletClone.GetComponent<BulletBehaviour>().SetDamage(Damage);
