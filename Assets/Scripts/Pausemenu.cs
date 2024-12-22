@@ -47,11 +47,13 @@ public class Pausemenu : MonoBehaviour
     }
     public void restart()
     {
+        Debug.Log("Restart");
         Time.timeScale=1f;
         SceneManager.LoadScene("SamplaScene");
     }
     public void MainMenu()
     {
+        Debug.Log("mainMenu");
         Time.timeScale=1f;
         SceneManager.LoadScene("MainMenu");
     }
