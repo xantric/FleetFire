@@ -837,6 +837,7 @@ MonoBehaviour:
   playerBody: {fileID: 1757366523}
   TopClamp: -80
   BottomClamp: 80
+  pausemenu: {fileID: 1502925646}
 --- !u!4 &365616621 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6380871475074860090, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
@@ -1947,6 +1948,7 @@ MonoBehaviour:
   playerBody: {fileID: 246929628}
   TopClamp: -80
   BottomClamp: 80
+  pausemenu: {fileID: 0}
 --- !u!114 &947999885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7216,6 +7218,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 5042508905431861990, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6380871475074860090, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7278,9 +7285,9 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1269045967}
-  - {fileID: 1502925645}
   - {fileID: 1757366523}
   - {fileID: 1198881204}
+  - {fileID: 1502925645}
   - {fileID: 246929628}
   - {fileID: 1114409115}
   - {fileID: 420632562}
