@@ -16,8 +16,17 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
 
     Vector3 velocity;
+    AudioManager audioManager;
+
+private void Awake()
+
+{
+audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+}
+
+
     bool isGrounded;
-    // Start is called before the first frame update
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -41,8 +50,13 @@ public class PlayerMovement : MonoBehaviour
         }
         if(Input.GetButtonDown("Jump") && isGrounded)
         {
+            audioManager.PlaySFX (audioManager.jump);
+            
             velocity.y = Mathf.Sqrt(-2f * gravity * jumpHeight);
         }
+    if (move!= new Vector3(0,0,0)){ 
+audioManager.PlaySFX (audioManager.Movement);
+    }
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
        // Debug.Log(velocity.y);

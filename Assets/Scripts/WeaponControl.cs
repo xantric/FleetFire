@@ -24,6 +24,15 @@ public class WeaponControl : MonoBehaviour
     public int ClipCount=2;
     public Pausemenu pause;
 
+
+    AudioManager audioManager;
+
+private void Awake()
+
+{
+audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+}
+
     void Start()
     {
         CurrentAmmo = MaxAmmo;
@@ -59,6 +68,7 @@ public class WeaponControl : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
+        audioManager.PlaySFX (audioManager.Reload);
         yield return new WaitForSeconds(reloadTime);
         CurrentAmmo = MaxAmmo;
         isReloading = false;
@@ -73,6 +83,7 @@ public class WeaponControl : MonoBehaviour
         SetCrossHair();
         if(Input.GetMouseButtonDown(0) && crossHair.gameObject.activeSelf && CurrentAmmo > 0)
         {
+            audioManager.PlaySFX (audioManager.shooting);
             Shoot();
         }
         if(Input.GetKeyDown(KeyCode.R) && CurrentAmmo < MaxAmmo && ClipCount > 0) 
