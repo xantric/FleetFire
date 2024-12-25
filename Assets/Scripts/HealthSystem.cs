@@ -1,21 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-    float health = 100f;
-    public GameObject player;
+    public float health = 100;
+    public float maxHelath = 100;
 
-    public void ReduceHealth(float damage) {
+    AudioManager audioManager;
 
+    private void Awake() {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+    public void reduceHealth(float damage)
+    {
         health -= damage;
     }
-
-    private void Update() {
-        if (health <= 0) { 
-            Destroy(player);
+    void Update()
+    {
+        if(health <= 0)
+        {
+            audioManager.PlaySFX(audioManager.death);
+            Destroy(gameObject);
         }
     }
 }
