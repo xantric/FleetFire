@@ -1894,7 +1894,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4179,6 +4179,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 905315021020773881, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
         type: 3}
+      propertyPath: speed
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 905315021020773881, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
+        type: 3}
       propertyPath: crossHair
       value: 
       objectReference: {fileID: 843928336}
@@ -4196,6 +4201,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 5214995705142108733, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
+        type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5658432787014432722, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 6380871475074860090, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
         type: 3}

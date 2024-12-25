@@ -18,6 +18,7 @@ public class BulletBehaviour : MonoBehaviour
     }
     void OnCollisionEnter(Collision other)
     {
+        Debug.Log(other.gameObject.name);
         if(other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<HealthSystem>().reduceHealth(damage);
@@ -35,7 +36,9 @@ public class BulletBehaviour : MonoBehaviour
             somethingHit = Physics.Raycast(transform.position, -direction, out hitInfo, speed * Time.deltaTime);
             if(somethingHit)
             {
-                if(hitInfo.collider.gameObject.CompareTag("Player"))
+                Debug.Log("Raycast hit mkc");
+                Debug.Log(hitInfo.collider.gameObject.name);
+                if (hitInfo.collider.gameObject.CompareTag("Player"))
                 {
                     hitInfo.collider.gameObject.GetComponent<HealthSystem>().reduceHealth(damage);
                 }
