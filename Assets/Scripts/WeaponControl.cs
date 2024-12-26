@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
+
 
 public class WeaponControl : MonoBehaviour
 {
@@ -53,9 +53,9 @@ public class WeaponControl : MonoBehaviour
     }
     void Shoot()
     {
-        if(pauseMenu.isPaused == true) {
+        /*if(pauseMenu.isPaused == true) {
             return;
-        }
+        }*/
         GameObject bulletClone = Instantiate(bullet, muzzle.position, Quaternion.identity);
         audioManager.PlaySFX(audioManager.shooting);
         bulletClone.GetComponent<BulletBehaviour>().SetVelocity(speed * muzzle.forward.normalized);

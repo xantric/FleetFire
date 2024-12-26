@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        /*if (Input.GetKeyDown(KeyCode.Escape)) {
             if (isPaused) {
                 Resume();
                 isPaused = false;
@@ -28,7 +28,7 @@ public class PauseMenu : MonoBehaviour {
                 Pause();
                 isPaused=true;
             }
-        }
+        }*/
     }
 
     public void Resume() {

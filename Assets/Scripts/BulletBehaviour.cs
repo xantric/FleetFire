@@ -9,7 +9,7 @@ public class BulletBehaviour : MonoBehaviour
     RaycastHit hitInfo;
     float damage;
     bool somethingHit;
-
+    public LayerMask _layerMask;
     public void SetVelocity(Vector3 velocity)
     {
         GetComponent<Rigidbody>().velocity = velocity;
@@ -33,11 +33,11 @@ public class BulletBehaviour : MonoBehaviour
     {
         if(direction != null)
         {
-            somethingHit = Physics.Raycast(transform.position, -direction, out hitInfo, speed * Time.deltaTime);
+            somethingHit = Physics.Raycast(transform.position, -direction, out hitInfo, speed * Time.deltaTime, _layerMask);
             if(somethingHit)
             {
-                Debug.Log("Raycast hit mkc");
-                Debug.Log(hitInfo.collider.gameObject.name);
+                
+                Debug.Log("RayCast Hit" + " " + hitInfo.collider.gameObject.name);
                 if (hitInfo.collider.gameObject.CompareTag("Player"))
                 {
                     hitInfo.collider.gameObject.GetComponent<HealthSystem>().reduceHealth(damage);

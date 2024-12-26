@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour {
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
+    public AudioSource movementSource;
 
     [Header("-------Audio Clip-------")]
 
@@ -26,6 +27,7 @@ public class AudioManager : MonoBehaviour {
     private void Start() {
         musicSource.clip = background;
         musicSource.Play();
+        movementSource.clip = movement;
     }
 
     private void Update() {
@@ -43,5 +45,4 @@ public class AudioManager : MonoBehaviour {
     public void PlaySFX(AudioClip clip) {
         sfxSource.PlayOneShot(clip);
     }
-
 }

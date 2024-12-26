@@ -13,7 +13,7 @@ public class MouseMovement : MonoBehaviour
     public float TopClamp = -60f;
     public float BottomClamp = 60f;
 
-    public PauseMenu pauseMenu;
+    //public PauseMenu pauseMenu;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -22,14 +22,14 @@ public class MouseMovement : MonoBehaviour
 
     void Update()
     {
-        if (pauseMenu.isPaused) {
+        /*if (pauseMenu.isPaused) {
             Cursor.lockState = CursorLockMode.None;
         }
         else {
             Cursor.lockState = CursorLockMode.Locked;
-        }
+        }*/
 
-        float mouseX = Input.GetAxis("Mouse X") * senstivity * Time.deltaTime;
+        /*float mouseX = Input.GetAxis("Mouse X") * senstivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * senstivity * Time.deltaTime;
 
         xRotation -= mouseY;
@@ -38,6 +38,6 @@ public class MouseMovement : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-        playerBody.Rotate(Vector3.up * mouseX);
+        playerBody.Rotate(Vector3.up * mouseX);*/
     }
 }
