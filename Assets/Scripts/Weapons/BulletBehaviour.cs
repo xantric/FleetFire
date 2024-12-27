@@ -19,9 +19,10 @@ public class BulletBehaviour : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         Debug.Log(other.gameObject.name);
-        if(other.gameObject.CompareTag("Player"))
+        if(other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<HealthSystem>().reduceHealth(damage);
+            other.gameObject.GetComponent<HealthSystem>().reduceHealthServerRpc(damage);
+            //Debug.Log(other.gameObject.GetComponent<HealthSystem>().health);
         }
         Destroy(gameObject);
     }
@@ -40,7 +41,8 @@ public class BulletBehaviour : MonoBehaviour
                 Debug.Log("RayCast Hit" + " " + hitInfo.collider.gameObject.name);
                 if (hitInfo.collider.gameObject.CompareTag("Player"))
                 {
-                    hitInfo.collider.gameObject.GetComponent<HealthSystem>().reduceHealth(damage);
+                    hitInfo.collider.gameObject.GetComponent<HealthSystem>().reduceHealthServerRpc(damage);
+                    //Debug.Log(hitInfo.collider.gameObject.GetComponent<HealthSystem>().health);
                 }
                 Destroy(gameObject);
             }

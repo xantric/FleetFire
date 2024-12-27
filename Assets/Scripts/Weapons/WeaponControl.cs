@@ -29,6 +29,7 @@ public class WeaponControl : MonoBehaviour
 
     private void Awake() {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        crossHair = null;
     }
 
     void Start()
@@ -40,15 +41,18 @@ public class WeaponControl : MonoBehaviour
         somethingHit = Physics.Raycast(muzzle.position, muzzle.forward, out hitInfo, range, ~ignoreLayer);
         if(somethingHit)
         {
-            crossHair.gameObject.SetActive(true);
-            Vector3 hitPoint = hitInfo.point;
-            Vector3 positionInCamera = mainCamera.WorldToScreenPoint(hitPoint);
-            crossHair.anchoredPosition = new Vector2(positionInCamera.x, positionInCamera.y);
-            crossHair.localScale = new Vector3(1,1,1) * scaleFactor/hitInfo.distance;
+            if ( crossHair != null )
+            {
+                crossHair.gameObject.SetActive(true);
+                Vector3 hitPoint = hitInfo.point;
+                Vector3 positionInCamera = mainCamera.WorldToScreenPoint(hitPoint);
+                crossHair.anchoredPosition = new Vector2(positionInCamera.x, positionInCamera.y);
+                crossHair.localScale = new Vector3(1, 1, 1) * scaleFactor / hitInfo.distance;
+            } 
         }
         else
         {
-            crossHair.gameObject.SetActive(false);
+            if (crossHair != null) crossHair.gameObject.SetActive(false);
         }
     }
     void Shoot()
@@ -79,9 +83,12 @@ public class WeaponControl : MonoBehaviour
             return;
         }
         SetCrossHair();
-        if(Input.GetMouseButtonDown(0) && crossHair.gameObject.activeSelf && CurrentAmmo > 0)
+        if (crossHair != null )
         {
-            Shoot();
+            if (Input.GetMouseButtonDown(0) && crossHair.gameObject.activeSelf && CurrentAmmo > 0)
+            {
+                Shoot();
+            }
         }
         if(Input.GetKeyDown(KeyCode.R) && CurrentAmmo < MaxAmmo && ClipCount > 0) 
         {

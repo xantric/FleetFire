@@ -42,6 +42,8 @@ public class PlayerMovement : NetworkBehaviour
         Crosshair _crosshair = FindObjectOfType<Crosshair>();
         if (!IsOwner)
         {
+            this.tag = "Enemy";
+            gameObject.layer = LayerMask.GetMask("Enemy");
             enabled = false;
             controller.enabled = false;
         }
@@ -54,7 +56,28 @@ public class PlayerMovement : NetworkBehaviour
             Pistol.GetComponent<WeaponControl>().mainCamera = playerCamera;
             Pistol.GetComponent<WeaponControl>().crossHair = _crosshair.crossHairRectTransform;
         }
-        
+        if(base.IsServer)
+        {
+            controller.enabled = false;
+            SetSpawnLocation();
+            controller.enabled = true;
+
+        }
+    }
+
+    public void SetSpawnLocation()
+    {
+        SpawnPositionManager _spawnPositionManager = FindObjectOfType<SpawnPositionManager>();
+        //Debug.Log(_spawnPositionManager.spawnPoints.Count);
+        if (_spawnPositionManager == null || _spawnPositionManager.spawnPoints.Count == 0)
+        {
+            Debug.LogError("No Spawn Points Available");
+            return;
+        }
+        transform.position = _spawnPositionManager.spawnPoints[_spawnPositionManager.spawnIndex].transform.position;
+        Debug.Log(transform.position);
+        _spawnPositionManager.spawnIndex++;
+        if (_spawnPositionManager.spawnIndex >= _spawnPositionManager.spawnPoints.Count) _spawnPositionManager.spawnIndex = 0;
     }
 
     private void Awake() {

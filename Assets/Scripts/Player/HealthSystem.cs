@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class HealthSystem : MonoBehaviour
+public class HealthSystem : NetworkBehaviour
 {
     public float health = 100;
     public float maxHelath = 100;
@@ -12,16 +13,21 @@ public class HealthSystem : MonoBehaviour
     private void Awake() {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
-    public void reduceHealth(float damage)
+
+    [ServerRpc(RequireOwnership = false)]
+    public void reduceHealthServerRpc(float damage)
     {
         health -= damage;
-    }
-    void Update()
-    {
+        Debug.Log("current Health: " + health);
         if(health <= 0)
         {
-            audioManager.PlaySFX(audioManager.death);
-            Destroy(gameObject);
+            Die();
         }
     }
+    void Die()
+    {
+        audioManager.PlaySFX(audioManager.death);
+        Destroy(gameObject);
+    }
+    
 }
