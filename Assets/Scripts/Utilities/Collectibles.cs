@@ -14,12 +14,12 @@ public class Collectibles : MonoBehaviour
         Destroy(other.gameObject);
     }
     if(other.tag == "CollectibleHealth"){
-        if(healthSystem.health>80 && healthSystem.health<100){
-            healthSystem.health =100;
+        if(healthSystem.health.Value >80 && healthSystem.health.Value <100){
+            healthSystem.health.Value =100;
         }
-         else if (healthSystem.health>0 && healthSystem.health<80)
+         else if (healthSystem.health.Value >0 && healthSystem.health.Value <80)
         {
-            healthSystem.health += 20;
+            healthSystem.health.Value += 20;
         }
         Destroy(other.gameObject);
     }

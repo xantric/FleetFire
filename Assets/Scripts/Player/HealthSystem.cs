@@ -5,11 +5,21 @@ using UnityEngine;
 
 public class HealthSystem : NetworkBehaviour
 {
-    public float health = 100;
+    //public float health = 100;
+    public NetworkVariable<float> health = new NetworkVariable<float>(100f);
     public float maxHelath = 100;
 
     AudioManager audioManager;
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if (IsOwner)
+        {
+            HealthBar _healthBar = FindAnyObjectByType<HealthBar>();
+            _healthBar.healthSystem = this;
+        }
+    }
     private void Awake() {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
@@ -17,9 +27,9 @@ public class HealthSystem : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void reduceHealthServerRpc(float damage)
     {
-        health -= damage;
-        Debug.Log("current Health: " + health);
-        if(health <= 0)
+        health.Value -= damage;
+        Debug.Log("current Health: " + health.Value);
+        if(health.Value <= 0)
         {
             Die();
         }

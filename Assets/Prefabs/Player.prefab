@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 4542165696363757052}
   - component: {fileID: 7752892010129410616}
   - component: {fileID: 3059649866940929870}
+  - component: {fileID: 2189943462933405879}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -348,7 +349,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c810b72785a4e3496ad806af8125b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health:
+    m_InternalValue: 100
   maxHelath: 100
 --- !u!114 &4542165696363757052
 MonoBehaviour:
@@ -416,6 +418,20 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &2189943462933405879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663765164019951728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00c52470d26091442bb4ceb9923ca59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 3015227413982544027, guid: 61d25812b8b2c491d81650150836237e,
+    type: 3}
 --- !u!1001 &6615870201739789046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -429,6 +445,11 @@ PrefabInstance:
       propertyPath: speed
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 905315021020773881, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
+        type: 3}
+      propertyPath: _playerWeapon
+      value: 
+      objectReference: {fileID: 2189943462933405879}
     - target: {fileID: 1434131390075737699, guid: 29f2ed8221cc34b1e89c432f01f18ee4,
         type: 3}
       propertyPath: m_Layer

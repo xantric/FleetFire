@@ -24,7 +24,7 @@ public class WeaponControl : MonoBehaviour
     public int ClipCount=2;
 
     public PauseMenu pauseMenu;
-
+    public PlayerWeapon _playerWeapon;
     AudioManager audioManager;
 
     private void Awake() {
@@ -60,11 +60,12 @@ public class WeaponControl : MonoBehaviour
         /*if(pauseMenu.isPaused == true) {
             return;
         }*/
-        GameObject bulletClone = Instantiate(bullet, muzzle.position, Quaternion.identity);
+        //GameObject bulletClone = Instantiate(bullet, muzzle.position, Quaternion.identity);
         audioManager.PlaySFX(audioManager.shooting);
-        bulletClone.GetComponent<BulletBehaviour>().SetVelocity(speed * muzzle.forward.normalized);
-        bulletClone.GetComponent<BulletBehaviour>().SetDamage(Damage);
+       // bulletClone.GetComponent<BulletBehaviour>().SetVelocity(speed * muzzle.forward.normalized);
+        //bulletClone.GetComponent<BulletBehaviour>().SetDamage(Damage);
         CurrentAmmo--;
+        _playerWeapon.SpawnBulletServerRpc(muzzle.position, muzzle.forward.normalized, Damage, speed);
     }
 
     IEnumerator Reload()

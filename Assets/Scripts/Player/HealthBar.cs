@@ -7,9 +7,13 @@ public class HealthBar : MonoBehaviour
 {
     public HealthSystem healthSystem;
     public Slider healthSlider;
-    
+
+    private void Start()
+    {
+        healthSystem = null;
+    }
     void Update() {
 
-        healthSlider.value = healthSystem.health/healthSystem.maxHelath;
+        if(healthSystem != null) healthSlider.value = healthSystem.health.Value /healthSystem.maxHelath;
     }
 }
