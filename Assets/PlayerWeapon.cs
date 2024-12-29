@@ -9,6 +9,7 @@ public class PlayerWeapon : NetworkBehaviour
     [ServerRpc]
     public void SpawnBulletServerRpc(Vector3 position, Vector3 direction, float damage, float speed)
     {
+        Debug.Log("Bullet Spawned");
         GameObject bulletClone = Instantiate(BulletPrefab, position, Quaternion.identity);
         bulletClone.GetComponent<NetworkObject>().Spawn(true);
 

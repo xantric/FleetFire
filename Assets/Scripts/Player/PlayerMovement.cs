@@ -43,7 +43,7 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsOwner)
         {
             this.tag = "Enemy";
-            gameObject.layer = LayerMask.GetMask("Enemy");
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
             enabled = false;
             controller.enabled = false;
         }
@@ -75,7 +75,7 @@ public class PlayerMovement : NetworkBehaviour
             return;
         }
         transform.position = _spawnPositionManager.spawnPoints[_spawnPositionManager.spawnIndex].transform.position;
-        Debug.Log(transform.position);
+//        Debug.Log(transform.position);
         _spawnPositionManager.spawnIndex++;
         if (_spawnPositionManager.spawnIndex >= _spawnPositionManager.spawnPoints.Count) _spawnPositionManager.spawnIndex = 0;
     }

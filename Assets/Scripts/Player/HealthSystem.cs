@@ -27,8 +27,8 @@ public class HealthSystem : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void reduceHealthServerRpc(float damage)
     {
+        Debug.Log("Damage recieved by rpc:" + damage);
         health.Value -= damage;
-        Debug.Log("current Health: " + health.Value);
         if(health.Value <= 0)
         {
             Die();

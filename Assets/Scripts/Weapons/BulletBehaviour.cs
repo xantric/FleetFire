@@ -18,9 +18,10 @@ public class BulletBehaviour : MonoBehaviour
     }
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log(other.gameObject.name);
-        if(other.gameObject.CompareTag("Enemy"))
+        Debug.Log("Hit object :"+other.gameObject.name);
+        if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Damage given to rpc:" + damage);
             other.gameObject.GetComponent<HealthSystem>().reduceHealthServerRpc(damage);
             //Debug.Log(other.gameObject.GetComponent<HealthSystem>().health);
         }
