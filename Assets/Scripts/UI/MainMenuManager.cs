@@ -18,7 +18,7 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void StartGame() {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(1);
     }
     public void Instructions() {
         mainMenuCanvas.SetActive(false);

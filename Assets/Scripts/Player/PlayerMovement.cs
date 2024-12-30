@@ -18,7 +18,7 @@ public class PlayerMovement : NetworkBehaviour
 
     Vector3 velocity;
     bool isGrounded;
-    bool isSoundPlaying;
+    //bool isSoundPlaying;
     AudioManager audioManager;
 
     public float cameraXoffset;
@@ -85,7 +85,7 @@ public class PlayerMovement : NetworkBehaviour
     }
     void Start()
     {
-        isSoundPlaying = false;
+        //isSoundPlaying = false;
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
     }
