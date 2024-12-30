@@ -42,8 +42,6 @@ public class PlayerMovement : NetworkBehaviour
         Crosshair _crosshair = FindObjectOfType<Crosshair>();
         if (!IsOwner)
         {
-            this.tag = "Enemy";
-            gameObject.layer = LayerMask.NameToLayer("Enemy");
             enabled = false;
             controller.enabled = false;
         }
