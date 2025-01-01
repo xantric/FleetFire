@@ -136,7 +136,7 @@ namespace Meryel.UnityCodeAssist.Editor.Input
             }
             catch (Exception e)
             {
-                //UnityEngine.Debug.Log(e);
+                //UnityEngine.//e);
                 Serilog.Log.Error(e, "Exception while running process at {Scope}.{Location}", nameof(EditorToolExec), nameof(Exec));
             }
 

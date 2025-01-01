@@ -68,14 +68,14 @@ public class PlayerMovement : NetworkBehaviour
     public void SetSpawnLocation()
     {
         SpawnPositionManager _spawnPositionManager = FindObjectOfType<SpawnPositionManager>();
-        //Debug.Log(_spawnPositionManager.spawnPoints.Count);
+        ////_spawnPositionManager.spawnPoints.Count);
         if (_spawnPositionManager == null || _spawnPositionManager.spawnPoints.Count == 0)
         {
             Debug.LogError("No Spawn Points Available");
             return;
         }
         transform.position = _spawnPositionManager.spawnPoints[_spawnPositionManager.spawnIndex].transform.position;
-//        Debug.Log(transform.position);
+//        //transform.position);
         _spawnPositionManager.spawnIndex++;
         if (_spawnPositionManager.spawnIndex >= _spawnPositionManager.spawnPoints.Count) _spawnPositionManager.spawnIndex = 0;
     }

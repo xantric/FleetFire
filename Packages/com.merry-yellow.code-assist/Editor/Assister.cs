@@ -354,7 +354,7 @@ namespace Meryel.UnityCodeAssist.Editor
                 var name = LayerMask.LayerToName(i);
                 if (!string.IsNullOrEmpty(name))
                 {
-                    Debug.Log(i + ":" + name);
+                    //i + ":" + name);
                 }
             }
 

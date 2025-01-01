@@ -37,8 +37,8 @@ namespace Meryel.UnityCodeAssist.Editor.Logger
 
             switch (logEvent.Level)
             {
-                //case LogEventLevel.Verbose:
-                //case LogEventLevel.Debug:
+                case LogEventLevel.Verbose:
+                case LogEventLevel.Debug:
                 case LogEventLevel.Information:
                     UnityEngine.Debug.Log(message);
                     break;

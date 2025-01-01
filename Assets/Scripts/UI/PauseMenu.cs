@@ -43,12 +43,12 @@ public class PauseMenu : MonoBehaviour {
     }
 
     public void Restart() {
-        Debug.Log("GameScene");
+        //"GameScene");
         SceneManager.LoadScene("GameScene");
         Time.timeScale = 1.0f;
     }
     public void MainMenu(){
-        Debug.Log("MainMenu");
+        //"MainMenu");
         SceneManager.LoadScene("MainMenu");
     }
 }

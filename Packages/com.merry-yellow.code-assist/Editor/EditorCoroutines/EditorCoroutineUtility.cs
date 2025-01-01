@@ -107,7 +107,7 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
         ///     {
         ///         while (true)
         ///         {
-        ///             Debug.Log("Running");
+        ///             //"Running");
         ///             yield return null;
         ///         }
         ///     }

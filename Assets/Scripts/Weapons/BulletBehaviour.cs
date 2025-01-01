@@ -18,12 +18,12 @@ public class BulletBehaviour : MonoBehaviour
     }
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Hit object :"+other.gameObject.name);
+        //"Hit object :"+other.gameObject.name);
         if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Damage given to rpc:" + damage);
+            //"Damage given to rpc:" + damage);
             other.gameObject.GetComponent<HealthSystem>().reduceHealthServerRpc(damage);
-            //Debug.Log(other.gameObject.GetComponent<HealthSystem>().health);
+            ////other.gameObject.GetComponent<HealthSystem>().health);
         }
         Destroy(gameObject);
     }
@@ -39,11 +39,11 @@ public class BulletBehaviour : MonoBehaviour
             if(somethingHit)
             {
                 
-                Debug.Log("RayCast Hit" + " " + hitInfo.collider.gameObject.name);
+                //"RayCast Hit" + " " + hitInfo.collider.gameObject.name);
                 if (hitInfo.collider.gameObject.CompareTag("Player"))
                 {
                     hitInfo.collider.gameObject.GetComponent<HealthSystem>().reduceHealthServerRpc(damage);
-                    //Debug.Log(hitInfo.collider.gameObject.GetComponent<HealthSystem>().health);
+                    ////hitInfo.collider.gameObject.GetComponent<HealthSystem>().health);
                 }
                 Destroy(gameObject);
             }

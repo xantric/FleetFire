@@ -24,7 +24,7 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
     ///         while (true)
     ///         {
     ///             yield return waitForOneSecond;
-    ///             Debug.Log("Printing each second");
+    ///             //"Printing each second");
     ///         }
     ///     }
     /// }

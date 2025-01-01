@@ -333,7 +333,7 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
 
             string[] keys = entryAccessor.GetKeys(reloadKeys);
 
-            //keys.ToList().ForEach( e => { Debug.Log(e); } );
+            //keys.ToList().ForEach( e => { //e); } );
 
             // Seperate keys int unity defined and user defined
             Dictionary<bool, List<string>> groups = keys
