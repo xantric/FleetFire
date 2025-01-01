@@ -4478,7 +4478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 8.866401}
+  m_AnchoredPosition: {x: 0, y: 0.0007726021}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &39002240727915962
@@ -6194,6 +6194,7 @@ MonoBehaviour:
   playerUpdateTimer: 0
   playerName: 
   playerId: 
+  Canvas: {fileID: 4378973759792835753}
 --- !u!114 &3059996491688150891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10252,7 +10253,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8080763099224590526}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.6
+  m_Size: 0.9892498
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

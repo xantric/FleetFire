@@ -21,6 +21,7 @@ public class LobbyManager : MonoBehaviour
     public string playerName, playerId;
     bool authenticated = false;
     bool GameStartedProcessing = false;
+    public GameObject Canvas;
     void Update()
     {
         if(JoinedLobby != null)
@@ -269,8 +270,11 @@ public class LobbyManager : MonoBehaviour
     }
     public async void StartGame()
     {
+        if(GameStartedProcessing)
+            return;
         if(JoinedLobby != null)
         {
+            GameStartedProcessing = true;
             string relayCode =  await GetComponent<Relay>().CreateRelay(JoinedLobby.MaxPlayers);
             Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(JoinedLobby.Id, new UpdateLobbyOptions{
                 Data = new Dictionary<string, DataObject>
@@ -295,6 +299,7 @@ public class LobbyManager : MonoBehaviour
     }
     void JoinGame()
     {
+        Canvas.SetActive(false);
         GetComponent<Relay>().JoinRelay(RelayCode);
         Debug.Log("Joining relay...");
         GetComponent<LobbyUI>().enabled = false;                
