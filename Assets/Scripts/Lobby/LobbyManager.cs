@@ -1,12 +1,10 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using Unity.Services.Relay;
 
 public class LobbyManager : MonoBehaviour
 {
