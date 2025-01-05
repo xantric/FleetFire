@@ -33,7 +33,7 @@ public class BulletBehaviour : MonoBehaviour
     }
     void Update()
     {
-        if(direction != null)
+        /*if(direction != null)
         {
             somethingHit = Physics.Raycast(transform.position, -direction, out hitInfo, speed * Time.deltaTime, _layerMask);
             if(somethingHit)
@@ -47,6 +47,6 @@ public class BulletBehaviour : MonoBehaviour
                 }
                 Destroy(gameObject);
             }
-        }
+        }*/
     }
 }
