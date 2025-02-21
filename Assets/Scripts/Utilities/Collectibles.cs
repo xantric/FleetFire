@@ -8,7 +8,7 @@ public class Collectibles : MonoBehaviour
    private HealthSystem healthSystem;
    void OnTriggerEnter(Collider other){
     weaponControl = GameObject.Find("Pistol").GetComponent<WeaponControl>();
-    healthSystem = GameObject.Find("Player").GetComponent<HealthSystem>();
+    healthSystem = gameObject.GetComponent<HealthSystem>();
     if(other.tag == "CollectibleAmmo"){
         weaponControl.ClipCount++;
         Destroy(other.gameObject);
