@@ -47,7 +47,7 @@ public class WeaponControl : MonoBehaviour
                 Vector3 hitPoint = hitInfo.point;
                 Vector3 positionInCamera = mainCamera.WorldToScreenPoint(hitPoint);
                 crossHair.anchoredPosition = new Vector2(positionInCamera.x, positionInCamera.y);
-                crossHair.localScale = new Vector3(1, 1, 1) * scaleFactor / hitInfo.distance;
+                crossHair.localScale = new Vector3(1, 1, 1) * scaleFactor ;
             } 
         }
         else
