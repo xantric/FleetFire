@@ -8,6 +8,8 @@ TagManager:
   - CollectibleHealth
   - Audio
   - Enemy
+  - eq
+  - rycle
   layers:
   - Default
   - TransparentFX

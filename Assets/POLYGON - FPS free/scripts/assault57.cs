@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 
 
 public class assault57 : MonoBehaviour
 {
-
+    public PlayerAnimationSoundNetworkManager _playerAnimationSoundNetworkManager;
 
     public GameObject recyle_particles_performance;
     public GameObject shoot_handle;
@@ -50,6 +51,7 @@ public class assault57 : MonoBehaviour
 
     void Update()
     {
+        
         
         Input_Status();
 
@@ -299,10 +301,6 @@ public class assault57 : MonoBehaviour
 
         yield return new WaitForSeconds(0);
 
-
-
-
-
         // increasing the spread, while in automatic fire
         current_spread += spread_height;
 
@@ -347,30 +345,13 @@ public class assault57 : MonoBehaviour
         }
 
 
-        GameObject spawned_muzzle = Instantiate(muzzle, Shoot_start_point.transform.position, Shoot_start_point.transform.rotation);
-        spawned_muzzle.GetComponent<muzzle_flash>().origin = Shoot_start_point;
+        _playerAnimationSoundNetworkManager.PlayMuzzleEffectServerRpc();
 
 
         // adding shoot sound
-        if (!suppressor_a_bool && !suppressor_mac10_bool && !suppressor_c_bool && !suppressor_d_bool)
-        {
-            GameObject g = Instantiate(Clip_on_point, Shoot_start_point.transform.position, transform.rotation);
-            g.GetComponent<AudioSource>().clip = shoot_sound;
-            g.GetComponent<AudioSource>().maxDistance = 100;
-            g.GetComponent<AudioSource>().Play();
-            g.transform.parent = Shoot_start_point.transform;
-        }
-        if (suppressor_a_bool || suppressor_mac10_bool || suppressor_c_bool || suppressor_d_bool)
-        {
-            GameObject g = Instantiate(Clip_on_point, Shoot_start_point.transform.position, transform.rotation);
-            g.GetComponent<AudioSource>().clip = silence_shoot_sound;
-            g.GetComponent<AudioSource>().maxDistance = 100;
-            g.GetComponent<AudioSource>().Play();
-            g.transform.parent = Shoot_start_point.transform;
-
-            //The Suppressor decreases the spread to 33 %
-            Add_spread -= (Add_spread / 3);
-        }
+        _playerAnimationSoundNetworkManager.PlayShootSoundServerRpc(suppressor_a_bool, suppressor_mac10_bool,
+                                                                    suppressor_c_bool, suppressor_d_bool, 
+                                                                    transform.rotation, Add_spread);
 
 
 
@@ -416,7 +397,6 @@ public class assault57 : MonoBehaviour
         }
 
     }
-
 
     public int magazine_max;
     public int magazine_current;

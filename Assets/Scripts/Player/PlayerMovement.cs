@@ -50,7 +50,7 @@ public class PlayerMovement : NetworkBehaviour
             playerCamera = Camera.main;
             playerCamera.transform.position = new Vector3(transform.position.x + cameraXoffset, transform.position.y + cameraYoffset, transform.position.z + cameraZoffset);
             playerCamera.transform.SetParent(transform);
-            Pistol.transform.SetParent(playerCamera.transform);
+            //Pistol.transform.SetParent(playerCamera.transform);
             Pistol.GetComponent<WeaponControl>().mainCamera = playerCamera;
             Pistol.GetComponent<WeaponControl>().crossHair = _crosshair.crossHairRectTransform;
         }

@@ -1,12 +1,16 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
 
 public class polygon_fps_controller : NetworkBehaviour
 {
 
-    
-    
+    public static Dictionary<ulong, polygon_fps_controller> Players = new Dictionary<ulong, polygon_fps_controller>();
+
+    public assault57 _assault57;
+
+    public GameObject FPS_Rig;
     public GameObject FPS_camera;
 
     public GameObject aim_point;
@@ -49,45 +53,75 @@ public class polygon_fps_controller : NetworkBehaviour
 
 
 
-    //public override void OnNetworkSpawn()
-    //{
-    //    base.OnNetworkSpawn();
-    //    Crosshair _crosshair = FindObjectOfType<Crosshair>();
-    //    if (!IsOwner)
-    //    {
-    //        enabled = false;
-    //        controller.enabled = false;
-    //    }
-    //    else
-    //    {
-    //        FPS_camera = Camera.main.gameObject;
-    //        cam = Camera.main.gameObject;
-    //        //FPS_camera.transform.position = new Vector3(transform.position.x + cameraXoffset, transform.position.y + cameraYoffset, transform.position.z + cameraZoffset);
-    //        //FPS_camera.transform.SetParent(transform);
-    //    }
-    //    if (base.IsServer)
-    //    {
-    //        controller.enabled = false;
-    //        SetSpawnLocation();
-    //        controller.enabled = true;
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
 
-    //    }
-    //}
+        
 
-    //public void SetSpawnLocation()
-    //{
-    //    SpawnPositionManager _spawnPositionManager = FindObjectOfType<SpawnPositionManager>();
-    //    ////_spawnPositionManager.spawnPoints.Count);
-    //    if (_spawnPositionManager == null || _spawnPositionManager.spawnPoints.Count == 0)
-    //    {
-    //        Debug.LogError("No Spawn Points Available");
-    //        return;
-    //    }
-    //    transform.position = _spawnPositionManager.spawnPoints[_spawnPositionManager.spawnIndex].transform.position;
-    //    //        //transform.position);
-    //    _spawnPositionManager.spawnIndex++;
-    //    if (_spawnPositionManager.spawnIndex >= _spawnPositionManager.spawnPoints.Count) _spawnPositionManager.spawnIndex = 0;
-    //}
+        Players.Add(OwnerClientId, this);
+        if (!base.IsOwner)
+        {
+            FPS_camera.SetActive(false);
+            enabled = false;
+            controller.enabled = false;
+            _assault57.enabled = false;
+            this.gameObject.tag = "Enemy";
+            this.gameObject.transform.GetChild(1).tag = "Enemy";
+        }
+        
+        controller.enabled = false;
+        //SetSpawnLocationServerRpc();
+        //SetPlayerPosition(OwnerClientId, _spawnPositionManager.spawnPoints[_spawnPositionManager.spawnIndex].transform.position;)
+        SetSpawnLocation();
+        controller.enabled = true;
+        GameUIManager.PlayerJoined(OwnerClientId);
+        GameManager.InitializeNewPlayer(OwnerClientId);
+        GameTimer.PlayerSpawned(IsServer, Players.Count);
+    }
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        
+        Players.Remove(OwnerClientId);
+        GameUIManager.PlayerLeft(OwnerClientId);
+        GameManager.PlayerDisconnected(OwnerClientId);
+    }
+    //[ServerRpc(RequireOwnership = false)]
+    public void SetSpawnLocation()
+    {
+        //Debug.LogWarning("Spawned Location set");
+        SpawnPositionManager _spawnPositionManager = FindObjectOfType<SpawnPositionManager>();
+        if (_spawnPositionManager == null || _spawnPositionManager.spawnPoints.Count == 0)
+        {
+            Debug.LogError("No Spawn Points Available");
+            return;
+        }
+        SetPlayerPosition(OwnerClientId, _spawnPositionManager.spawnPoints[_spawnPositionManager.spawnIndex].transform.position);
+        _spawnPositionManager.spawnIndex++;
+        if (_spawnPositionManager.spawnIndex >= _spawnPositionManager.spawnPoints.Count) _spawnPositionManager.spawnIndex = 0;
+    }
+
+    public static void SetPlayerPosition(ulong clientID, Vector3 position)
+    {
+        if(!Players.TryGetValue(clientID, out var player))
+        {
+            return;
+        }
+        player.SetPlayerPositionServerRpc(position);
+    }
+
+    [ServerRpc( RequireOwnership = false )]
+    public void SetPlayerPositionServerRpc(Vector3 position)
+    {
+        Debug.LogWarning("Setting Spawn Position");
+        SetPlayerTargetClientRpc(position);
+    }
+    [ClientRpc]
+    public void SetPlayerTargetClientRpc(Vector3 position)
+    {
+        transform.position = position;
+    }
 
     private void Start()
     {
@@ -95,14 +129,13 @@ public class polygon_fps_controller : NetworkBehaviour
 
 
 
-        Cursor.visible = false;
-
-       // Here we register the player for the bunnies
-
-        GameObject target_add = GameObject.FindGameObjectWithTag("targets");
-
-        target_add.GetComponent<targets_for_bunny>().Add_Target(gameObject);
         Cursor.lockState = CursorLockMode.Locked;
+
+        // Here we register the player for the bunnies
+
+        //GameObject target_add = GameObject.FindGameObjectWithTag("targets");
+
+        //target_add.GetComponent<targets_for_bunny>().Add_Target(gameObject);
 
 
 
@@ -203,10 +236,17 @@ public class polygon_fps_controller : NetworkBehaviour
     public TextMesh health_gui;
 
 
-
+    bool canMove = true;
     void FixedUpdate()
     {
-
+        if (!IsOwner)
+        {
+            return;
+        }
+        if (!canMove)
+        {
+            return;
+        }
         walk_status();
         walk_execute();
         jumping();
@@ -2520,8 +2560,41 @@ public class polygon_fps_controller : NetworkBehaviour
 
 
 
+    public static void TogglePlayer(ulong ClientID, bool toggle)
+    {
+        if(!Players.TryGetValue(ClientID, out var player))
+        {
+            return;
+        }
+        player.TogglePlayerServerRpc(toggle);
 
+    }
 
+    [ServerRpc (RequireOwnership = false)]
+    public void TogglePlayerServerRpc(bool toggle)
+    {
+        DisablePlayerClientRpc(toggle);
+    }
 
+    [ClientRpc]
+    private void DisablePlayerClientRpc(bool toggle)
+    {
+        
+        canMove = toggle;
+        if(TryGetComponent(out Renderer rendered))
+        {
+            rendered.enabled = toggle;
+        }
+
+        Renderer[] allRenderers = GetComponentsInChildren<Renderer>();
+        controller.enabled = toggle;
+        foreach (Renderer renderer in allRenderers)
+        {
+            renderer.enabled = toggle;
+        }
+        
+        //SetSpawnLocationServerRpc();
+
+    }
 
 }

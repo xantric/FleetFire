@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
@@ -22,7 +23,7 @@ public class BulletBehaviour : MonoBehaviour
         if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player"))
         {
             //"Damage given to rpc:" + damage);
-            other.gameObject.GetComponent<HealthSystem>().reduceHealthServerRpc(damage);
+            other.gameObject.GetComponent<HealthSystem>().reduceHealthServerRpc(damage, GetComponentInParent<NetworkObject>().OwnerClientId);
             ////other.gameObject.GetComponent<HealthSystem>().health);
         }
         Destroy(gameObject);

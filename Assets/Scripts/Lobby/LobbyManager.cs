@@ -11,7 +11,7 @@ public class LobbyManager : MonoBehaviour
     public Lobby JoinedLobby;
     public string RelayCode = "0";
     public List<Lobby> lobbies = new List<Lobby>();
-    public List<Player> players = new List<Player>();
+    public static List<Player> players = new List<Player>();
     public float heartBeatInterval = 15f, heartBeatTimer = 0.0f;
     public float lobbyListInterval = 2f, lobbyListTimer = 0.0f;
     public float lobbyUpdateInterval = 5f, lobbyUpdateTimer = 0.0f;

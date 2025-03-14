@@ -27,6 +27,7 @@ public class WeaponControl : MonoBehaviour
     public PlayerWeapon _playerWeapon;
     AudioManager audioManager;
 
+    public PlayerAnimation _playerAnimation;
     private void Awake() {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         crossHair = null;
@@ -46,8 +47,8 @@ public class WeaponControl : MonoBehaviour
                 crossHair.gameObject.SetActive(true);
                 Vector3 hitPoint = hitInfo.point;
                 Vector3 positionInCamera = mainCamera.WorldToScreenPoint(hitPoint);
-                crossHair.anchoredPosition = new Vector2(positionInCamera.x, positionInCamera.y);
-                crossHair.localScale = new Vector3(1, 1, 1) * scaleFactor ;
+                //crossHair.anchoredPosition = new Vector2(positionInCamera.x, positionInCamera.y);
+                //crossHair.localScale = new Vector3(1, 1, 1) * scaleFactor ;
             } 
         }
         else
@@ -57,15 +58,11 @@ public class WeaponControl : MonoBehaviour
     }
     void Shoot()
     {
-        /*if(pauseMenu.isPaused == true) {
-            return;
-        }*/
-        //GameObject bulletClone = Instantiate(bullet, muzzle.position, Quaternion.identity);
         audioManager.PlaySFX(audioManager.shooting);
-       // bulletClone.GetComponent<BulletBehaviour>().SetVelocity(speed * muzzle.forward.normalized);
-        //bulletClone.GetComponent<BulletBehaviour>().SetDamage(Damage);
+       
         CurrentAmmo--;
         _playerWeapon.SpawnBulletServerRpc(muzzle.position, muzzle.forward.normalized, Damage, speed);
+        _playerAnimation.ShootAnim();
     }
 
     IEnumerator Reload()

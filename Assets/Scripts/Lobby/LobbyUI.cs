@@ -136,7 +136,8 @@ public class LobbyUI : MonoBehaviour
             if(child.gameObject.name != "Title" && child.gameObject.name != "Index")
                 Destroy(child.gameObject);
         }
-        foreach (var player in lobbyManager.players)
+        //var playerList = LobbyManager.players;
+        foreach (var player in LobbyManager.players)
         {
             GameObject playerObject = Instantiate(playerObjectPrefab, lobbyWaitingRoomContent.transform);
             playerObject.GetComponentInChildren<TMP_Text>().text = player.Data["name"].Value;
