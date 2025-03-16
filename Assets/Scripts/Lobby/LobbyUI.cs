@@ -1,3 +1,4 @@
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,7 +30,9 @@ public class LobbyUI : MonoBehaviour
 
     [Header("Update Time")]
     public float updateTime = 5, updateTimer = 0;
-    
+
+    [Header("Player Name File Path")]
+    public static string playerName = "";
     void Start()
     {
         lobbyManager = GetComponent<LobbyManager>();
@@ -61,6 +64,8 @@ public class LobbyUI : MonoBehaviour
     public void SetPlayerName()
     {
         lobbyManager.playerName = playerNameInput.text;
+        playerName = playerNameInput.text;
+        //GameUIManager.SetPlayerName(playerNameInput.text);
         playerNameText.text = playerNameInput.text;
         playerNameCanvas.SetActive(false);
         lobbyManager.Authenticate();

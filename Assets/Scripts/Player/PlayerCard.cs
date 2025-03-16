@@ -24,4 +24,11 @@ public class PlayerCard : MonoBehaviour
     {
         DeathsText.text = deaths.ToString();
     }
+
+    public void SetName(string name)
+    {
+        nameText.text = name;
+        killsText.text = "0";
+        DeathsText.text = "0";
+    }
 }

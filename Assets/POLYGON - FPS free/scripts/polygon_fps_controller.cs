@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using TMPro;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 public class polygon_fps_controller : NetworkBehaviour
 {
-
+    
     public static Dictionary<ulong, polygon_fps_controller> Players = new Dictionary<ulong, polygon_fps_controller>();
 
     public assault57 _assault57;
@@ -50,7 +52,7 @@ public class polygon_fps_controller : NetworkBehaviour
     public bool run;
     public bool cam_toggled;
 
-
+    string _PlayerName = "";
 
 
     public override void OnNetworkSpawn()
@@ -75,9 +77,13 @@ public class polygon_fps_controller : NetworkBehaviour
         //SetPlayerPosition(OwnerClientId, _spawnPositionManager.spawnPoints[_spawnPositionManager.spawnIndex].transform.position;)
         SetSpawnLocation();
         controller.enabled = true;
-        GameUIManager.PlayerJoined(OwnerClientId);
+        LogServerRpc(LobbyManager.players.ToString());
+
+        string n = LobbyManager.players[((int)OwnerClientId)].Data["name"].Value;
+        GameUIManager.PlayerJoined(OwnerClientId, n);
+
         GameManager.InitializeNewPlayer(OwnerClientId);
-        GameTimer.PlayerSpawned(IsServer, Players.Count);
+        GameTimer.PlayerSpawned(Players.Count);
     }
     public override void OnNetworkDespawn()
     {
@@ -86,6 +92,13 @@ public class polygon_fps_controller : NetworkBehaviour
         Players.Remove(OwnerClientId);
         GameUIManager.PlayerLeft(OwnerClientId);
         GameManager.PlayerDisconnected(OwnerClientId);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void LogServerRpc(string x)
+    {
+        Debug.Log(x);
     }
     //[ServerRpc(RequireOwnership = false)]
     public void SetSpawnLocation()

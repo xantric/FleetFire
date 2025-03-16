@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -8,6 +9,9 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
+
+    public static LobbyManager Instance { get; private set; }
+
     public Lobby JoinedLobby;
     public string RelayCode = "0";
     public List<Lobby> lobbies = new List<Lobby>();
@@ -20,6 +24,15 @@ public class LobbyManager : MonoBehaviour
     bool authenticated = false;
     bool GameStartedProcessing = false;
     public GameObject Canvas;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     void Update()
     {
         if(JoinedLobby != null)
@@ -59,13 +72,15 @@ public class LobbyManager : MonoBehaviour
         }
         authenticated = true;
     }
-    public Player CreatePlayer(string playerName)
+    public Player CreatePlayer(string playerName, ulong clientId)
     {
         return new Player
         {
             Data = new Dictionary<string, PlayerDataObject>
             {
-                { "name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) }
+                { "name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) },
+                { "clientId", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, clientId.ToString()) }
+
             }
         };
     }
@@ -93,10 +108,11 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            ulong myClientId = NetworkManager.Singleton.LocalClient.ClientId;
             CreateLobbyOptions options = new CreateLobbyOptions
             {
                 IsPrivate = isPrivate,
-                Player = CreatePlayer(playerName),
+                Player = CreatePlayer(playerName, myClientId),
                 Data = new Dictionary<string, DataObject>
                 {
                     {"gameStarted", new DataObject(DataObject.VisibilityOptions.Member, "0")}
@@ -161,9 +177,10 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            ulong myClientId = NetworkManager.Singleton.LocalClient.ClientId;
             JoinLobbyByIdOptions joinLobbyByIdOptions = new JoinLobbyByIdOptions
             {
-                Player = CreatePlayer(playerName)
+                Player = CreatePlayer(playerName, myClientId)
             };
             var joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, joinLobbyByIdOptions); // Join a lobby by ID
             PrintPlayers(joinedLobby);
@@ -178,9 +195,10 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            ulong myClientId = NetworkManager.Singleton.LocalClient.ClientId;
             JoinLobbyByCodeOptions joinLobbyByCodeOptions = new JoinLobbyByCodeOptions
             {
-                Player = CreatePlayer(playerName)
+                Player = CreatePlayer(playerName, myClientId)
             };
             var joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCodeOptions); // Join a lobby by ID
             PrintPlayers(joinedLobby);
@@ -280,6 +298,7 @@ public class LobbyManager : MonoBehaviour
                     {"gameStarted", new DataObject(DataObject.VisibilityOptions.Member, relayCode)},
                 }
             });
+            
         }
     }
     public void CheckGameStarted()
@@ -304,4 +323,21 @@ public class LobbyManager : MonoBehaviour
         GetComponent<LobbyUI>().lobbyWaitingRoom.SetActive(false);
         this.enabled = false;
     }
+
+    public static string GetPlayerNameFromClientId(ulong clientId)
+    {
+        
+        string clientIdStr = clientId.ToString();
+        foreach (var player in players)
+        {
+            Debug.LogError(player.Data["clientId"].Value);
+            if (player.Data.ContainsKey("clientId") && player.Data["clientId"].Value == clientIdStr)
+            {
+                return player.Data["name"].Value;
+            }
+        }
+        return "Unknown Player";
+    }
+
+
 }

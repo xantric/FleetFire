@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Networking.Transport.Error;
+using Unity.Services.Authentication;
 using UnityEngine;
 
 public class GameUIManager : NetworkBehaviour
@@ -13,27 +14,11 @@ public class GameUIManager : NetworkBehaviour
     private Dictionary<ulong,  PlayerCard> playerCards = new Dictionary<ulong, PlayerCard>();
 
 
-    public static string GetPlayerName()
-    {
-        LobbyManager _lobbyManager = FindObjectOfType<LobbyManager>();
-        if (_lobbyManager == null) return "Null";
-        if (_lobbyManager.JoinedLobby == null) return "Unkown";
-
-        foreach(var player in _lobbyManager.JoinedLobby.Players)
-        {
-            if(player.Id == _lobbyManager.playerId)
-            {
-                return player.Data["name"].Value;
-            }
-        }
-        return "Unkown";
-    }
-    public static void PlayerJoined(ulong clientID)
+    public static void PlayerJoined(ulong clientID, string playerName)
     {
         PlayerCard card = Instantiate(instance.playerCardPrefab, instance.playerCardParent);
         instance.playerCards.Add(clientID, card);
-        var name = GetPlayerName();
-        card.Initialize(clientID.ToString());
+        card.Initialize(playerName);
     }
 
     public static void PlayerLeft(ulong clientID)
@@ -68,7 +53,7 @@ public class GameUIManager : NetworkBehaviour
 
     }
 
-
+    
     public static void SetKill(ulong clientID, int kills)
     {
         instance.SetKillsServerRpc(clientID, kills);
@@ -100,5 +85,22 @@ public class GameUIManager : NetworkBehaviour
     public void SetDeathClientRpc(ulong clientID, int deaths)
     {
         instance.playerCards[clientID].SetDeaths(deaths);
+    }
+
+    public static void SetPlayerName(ulong clientID, string name)
+    {
+        instance.SetPlayerNameServerRpc(clientID, name);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetPlayerNameServerRpc(ulong clientID, string name)
+    {
+        instance.SetPlayerNameClientRpc(clientID, name);
+    }
+
+    [ClientRpc]
+    public void SetPlayerNameClientRpc(ulong ClientID, string name)
+    {
+        instance.playerCards[ClientID].SetName(name);
     }
 }

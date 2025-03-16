@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
+    public static Dictionary<ulong, Player> GetPlayers()
+    {
+        return players;
+    }
 
     [SerializeField]
     private float RespawnTime = 5f;
@@ -17,7 +21,7 @@ public class GameManager : NetworkBehaviour
 
     private static GameManager instance;
 
-    private Dictionary<ulong, Player> players = new Dictionary<ulong, Player>();
+    private static Dictionary<ulong, Player> players = new Dictionary<ulong, Player>();
 
     private List<ulong> deadPlayers = new List<ulong>();
 
@@ -33,20 +37,20 @@ public class GameManager : NetworkBehaviour
     }
     public static void InitializeNewPlayer(ulong ClientID)
     {
-        instance.players.Add(ClientID, new Player());
+        players.Add(ClientID, new Player());
     }
     public static void PlayerDisconnected(ulong ClientID)
     {
-        instance.players.Remove(ClientID);
+        players.Remove(ClientID);
     }
     public static void PlayerDied(ulong player, ulong killer)
     {
         Debug.LogWarning("PlayerDied");
-        if(instance.players.TryGetValue(killer, out Player killerPlayer))
+        if(players.TryGetValue(killer, out Player killerPlayer))
         {
             killerPlayer.score++;
         }
-        if(instance.players.TryGetValue(player, out Player deadPlayer))
+        if(players.TryGetValue(player, out Player deadPlayer))
         {
             deadPlayer.Deaths++;
             deadPlayer.DeathTime = Time.time;
@@ -57,7 +61,25 @@ public class GameManager : NetworkBehaviour
         instance.deadPlayers.Add(player);
         return;
     }
+    public static int GetDeaths(ulong clientID)
+    {
+        Debug.LogWarning(players.Count);
+        if (players.TryGetValue(clientID, out Player _player))
+        {
+            return _player.Deaths;
+        }
+        else return 0;
+    }
 
+    public static int GetKills(ulong clientID)
+    {
+        //Debug.LogWarning(players.Count);
+        if (players.TryGetValue(clientID, out Player _player))
+        {
+            return _player.score;
+        }
+        else return 0;
+    }
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -92,11 +114,11 @@ public class GameManager : NetworkBehaviour
 
         
     }
-    class Player
+    public class Player
     {
         public int Deaths = 0;
         public int score = 0;
         public float DeathTime = -99f;
     }
-
+    
 }
