@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1951294866182004699, guid: 856c031b7995ff24583a97d5c45ed012,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 256205676
+      value: 1163114960
       objectReference: {fileID: 0}
     - target: {fileID: 2585961903770038506, guid: 856c031b7995ff24583a97d5c45ed012,
         type: 3}
@@ -27,6 +27,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2585961903770038507, guid: 856c031b7995ff24583a97d5c45ed012,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2585961903770038507, guid: 856c031b7995ff24583a97d5c45ed012,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2585961903770038510, guid: 856c031b7995ff24583a97d5c45ed012,
         type: 3}
@@ -120,6 +130,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2585961904311011932, guid: 856c031b7995ff24583a97d5c45ed012,
         type: 3}
+      propertyPath: scope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2585961904311011932, guid: 856c031b7995ff24583a97d5c45ed012,
+        type: 3}
       propertyPath: stored_bullets
       value: 120
       objectReference: {fileID: 0}
@@ -170,6 +185,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 396907429569697787}
+    - targetCorrespondingSourceObject: {fileID: 2585961903770038506, guid: 856c031b7995ff24583a97d5c45ed012,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4008437833576427633}
     - targetCorrespondingSourceObject: {fileID: 2585961904152497196, guid: 856c031b7995ff24583a97d5c45ed012,
         type: 3}
       insertIndex: -1
@@ -348,6 +367,20 @@ MonoBehaviour:
   silence_shoot_sound: {fileID: 8300000, guid: f5e2372aea076384ea23e65a143800ee, type: 3}
   Shoot_start_point: {fileID: 598982237391232019}
   muzzle: {fileID: 608599103072718906, guid: 4547f8ff15bb82947b85f8c98dee9fd0, type: 3}
+--- !u!114 &4008437833576427633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598982237544892585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e4edb40a298fb44870b2eb1cd8b7c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthSystem: {fileID: 568230185855809247}
+  _assault57: {fileID: 598982236986978847}
 --- !u!95 &598982237835621473 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2585961904152497186, guid: 856c031b7995ff24583a97d5c45ed012,

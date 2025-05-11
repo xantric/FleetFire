@@ -63,10 +63,16 @@ public class LobbyManager : MonoBehaviour
         
         await UnityServices.InitializeAsync(options); // Initialize Unity Services
 
-        await AuthenticationService.Instance.SignInAnonymouslyAsync(); // Sign in anonymously
+        // Sign in anonymously
 
         if(AuthenticationService.Instance.IsSignedIn) // Check if the user is signed in
         {
+            playerId = AuthenticationService.Instance.PlayerId;
+            Debug.Log("Signed in as: " + playerId);
+        }
+        else
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
             playerId = AuthenticationService.Instance.PlayerId;
             Debug.Log("Signed in as: " + playerId);
         }
@@ -118,7 +124,8 @@ public class LobbyManager : MonoBehaviour
                     {"gameStarted", new DataObject(DataObject.VisibilityOptions.Member, "0")}
                 }
             };
-
+            
+            
             var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options); // Create a lobby with a name and a max number of players
             Debug.Log("Lobby created: " + lobby.Id + " - " + lobby.Name + " - " + lobby.LobbyCode + " by " + playerName);
             JoinedLobby = lobby;
@@ -251,6 +258,7 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            players.Clear();
             if(JoinedLobby != null)
             {
                 await LobbyService.Instance.RemovePlayerAsync(JoinedLobby.Id, AuthenticationService.Instance.PlayerId); // Leave a lobby
@@ -339,5 +347,23 @@ public class LobbyManager : MonoBehaviour
         return "Unknown Player";
     }
 
+    public async void LeaveLobbyOnExit()
+    {
+        if (JoinedLobby != null)
+        {
+            try
+            {
+                await LobbyService.Instance.RemovePlayerAsync(JoinedLobby.Id, AuthenticationService.Instance.PlayerId);
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.LogWarning($"Failed to remove player from lobby: {e}");
+            }
+
+            JoinedLobby = null;
+        }
+
+        players.Clear();
+    }
 
 }

@@ -4,25 +4,44 @@ using UnityEngine;
 
 public class Collectibles : MonoBehaviour
 {
-   private WeaponControl weaponControl;
-   private HealthSystem healthSystem;
-   void OnTriggerEnter(Collider other){
-    weaponControl = GameObject.Find("Pistol").GetComponent<WeaponControl>();
-    healthSystem = gameObject.GetComponent<HealthSystem>();
-    if(other.tag == "CollectibleAmmo"){
-        weaponControl.ClipCount++;
-        Destroy(other.gameObject);
-    }
-    if(other.tag == "CollectibleHealth"){
-        if(healthSystem.health.Value >80 && healthSystem.health.Value <100){
-            healthSystem.health.Value =100;
-        }
-         else if (healthSystem.health.Value >0 && healthSystem.health.Value <80)
+    [SerializeField]
+    private HealthSystem healthSystem;
+    [SerializeField]
+    private assault57 _assault57;
+    
+    private float HealthRecharge;
+    private int bullets;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "CollectibleHealth")
         {
-            healthSystem.health.Value += 20;
+            if(healthSystem != null) healthSystem.ResetHealthServerRpc();
         }
-        Destroy(other.gameObject);
+        else if(collision.gameObject.tag == "CollectibleAmmo")
+        {
+            if(_assault57 != null)
+            {
+                _assault57.stored_bullets = 120;
+            }
+        }
     }
-   }
-   
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "CollectibleHealth")
+        {
+            if (healthSystem != null) healthSystem.ResetHealthServerRpc();
+            if(other.gameObject != null) Destroy(other.gameObject);
+        }
+        else if (other.gameObject.tag == "CollectibleAmmo")
+        {
+            if (_assault57 != null)
+            {
+                _assault57.stored_bullets = 120;
+            }
+            if (other.gameObject != null) Destroy(other.gameObject);
+        }
+    }
+
 }

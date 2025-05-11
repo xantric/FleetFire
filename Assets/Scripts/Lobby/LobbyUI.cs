@@ -180,4 +180,15 @@ public class LobbyUI : MonoBehaviour
         lobbyWaitingRoom.SetActive(false);
         lobbyList.SetActive(true);
     }
+
+    public void ShowLobbyUI()
+    {
+        // Enable the main lobby canvas or UI panel.
+        this.gameObject.SetActive(true);
+        // Optionally, enable the lobby list and hide the waiting room.
+        lobbyList.SetActive(true);
+        lobbyWaitingRoom.SetActive(false);
+        createLobbyCanvas.SetActive(false);
+    }
+
 }

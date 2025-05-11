@@ -6,6 +6,6 @@ public class PlayerCamManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if(Camera.main.gameObject.activeSelf) Camera.main.gameObject.SetActive(false);
+        if(Camera.main.gameObject != null) Camera.main.gameObject.SetActive(false);
     }
 }

@@ -25,7 +25,7 @@ public class GameUIManager : NetworkBehaviour
     {
         if(instance.playerCards.TryGetValue(clientID, out PlayerCard playerCard))
         {
-            Destroy(playerCard.gameObject);
+            if (playerCard.gameObject != null) Destroy(playerCard.gameObject);
             instance.playerCards.Remove(clientID);
         }
     }
